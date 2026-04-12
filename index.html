@@ -1,0 +1,568 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.pg{max-width:800px;margin:0 auto;padding:1.5rem 1rem;font-family:var(--font-sans);color:var(--color-text-primary);}
+h1{font-size:22px;font-weight:500;margin-bottom:4px;}
+h2{font-size:18px;font-weight:500;margin-bottom:1rem;}
+h3{font-size:15px;font-weight:500;margin-bottom:6px;}
+p,li{font-size:14px;line-height:1.7;}
+ul{margin-left:1.2rem;margin-bottom:0.5rem;}
+.sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:1.5rem;}
+.nav{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap;}
+.nav button{font-size:12px;padding:5px 12px;border:0.5px solid var(--color-border-secondary);border-radius:20px;background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer;}
+.nav button.on{background:#E6F1FB;color:#0C447C;border-color:#B5D4F4;font-weight:500;}
+.nav button:hover:not(.on){background:var(--color-background-secondary);}
+.sec{display:none;}.sec.vis{display:block;}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem;}
+.bl{border-left:3px solid #378ADD;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;}
+.ba{border-left:3px solid #BA7517;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;}
+.bg{border-left:3px solid #3B6D11;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;}
+.formula{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 14px;font-family:var(--font-mono);font-size:13px;margin:8px 0;text-align:center;}
+.fi{font-family:var(--font-mono);font-size:13px;background:var(--color-background-secondary);padding:1px 5px;border-radius:4px;}
+.kp{background:#E6F1FB;border-left:3px solid #378ADD;padding:8px 12px;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;margin:8px 0;}
+.kp p{color:#0C447C;font-size:13px;}
+.warn{background:#FAEEDA;border-left:3px solid #BA7517;padding:8px 12px;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;margin:8px 0;}
+.warn p{color:#633806;font-size:13px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+@media(max-width:540px){.g2{grid-template-columns:1fr;}}
+.tag{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;display:inline-block;margin-bottom:6px;}
+.tb{background:#E6F1FB;color:#0C447C;}.ta{background:#FAEEDA;color:#633806;}.tg{background:#EAF3DE;color:#27500A;}.tr{background:#FCEBEB;color:#791F1F;}
+.qbox{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem;}
+.qhd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;gap:8px;}
+.mk{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:3px 8px;border-radius:var(--border-radius-md);white-space:nowrap;}
+.sol{margin-top:0.75rem;border-top:0.5px solid var(--color-border-tertiary);padding-top:0.75rem;display:none;}
+.step{margin-bottom:0.75rem;padding-left:0.75rem;border-left:2px solid var(--color-border-tertiary);}
+.stitle{font-size:12px;font-weight:500;color:#185FA5;margin-bottom:3px;}
+.btn{font-size:12px;padding:6px 14px;border-radius:var(--border-radius-md);cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);}
+.btn:hover{background:var(--color-background-secondary);}
+.btnp{background:#E6F1FB;color:#0C447C;border-color:#B5D4F4;font-weight:500;}
+.btnp:hover{background:#B5D4F4;}
+.ans{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:7px 10px;font-size:14px;width:110px;background:var(--color-background-primary);color:var(--color-text-primary);}
+.cr{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.fb{font-size:12px;font-weight:500;padding:3px 8px;border-radius:var(--border-radius-md);}
+.ok{background:#EAF3DE;color:#27500A;}.no{background:#FCEBEB;color:#791F1F;}
+.genbtn{font-size:13px;padding:9px 20px;border-radius:var(--border-radius-md);cursor:pointer;border:0.5px solid #B5D4F4;background:#E6F1FB;color:#0C447C;font-weight:500;margin-bottom:1.25rem;}
+.genbtn:hover{background:#B5D4F4;}
+svg text{font-family:var(--font-sans);}
+</style>
+
+<div class="pg">
+<h1>Vectors revisited</h1>
+<p class="sub">Edexcel AS-level pure mathematics · based on your lesson notes &amp; past paper questions</p>
+
+<div class="nav">
+  <button class="on" onclick="show('t1',this)">1. Bearings</button>
+  <button onclick="show('t2',this)">2. Magnitude</button>
+  <button onclick="show('t3',this)">3. Triangle inequality</button>
+  <button onclick="show('t4',this)">4. Displacement rule</button>
+  <button onclick="show('t5',this)">5. Vector geometry</button>
+  <button onclick="show('pq',this)">Past paper Qs</button>
+  <button onclick="show('gen',this)">Generator</button>
+</div>
+
+<!-- TAB 1: BEARINGS -->
+<div id="t1" class="sec vis">
+  <h2>Finding a bearing from a vector</h2>
+  <div class="card bl">
+    <h3>The three-step method</h3>
+    <p style="margin-bottom:6px;"><strong>Step 1 — Sketch:</strong> Draw the vector on a compass diagram. Identify which quadrant it lies in.</p>
+    <p style="margin-bottom:6px;"><strong>Step 2 — Reference angle:</strong> Use tan to find the angle α between the vector and the nearest N–S line.</p>
+    <p><strong>Step 3 — Bearing:</strong> Bearings are measured <em>clockwise from North (000°)</em>. Add or adjust based on the quadrant.</p>
+  </div>
+  <div class="card">
+    <h3>Worked example from your notes: v = −i − j</h3>
+    <div style="display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap;">
+      <div style="flex:1;min-width:180px;">
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          <defs><marker id="ah" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#888780"/></marker>
+          <marker id="ahb" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#378ADD"/></marker></defs>
+          <line x1="90" y1="10" x2="90" y2="170" stroke="#888780" stroke-width="1" marker-end="url(#ah)"/>
+          <line x1="10" y1="90" x2="170" y2="90" stroke="#888780" stroke-width="1" marker-end="url(#ah)"/>
+          <text x="88" y="8" font-size="11" fill="#5F5E5A" text-anchor="middle">N 000°</text>
+          <text x="172" y="93" font-size="11" fill="#5F5E5A">E</text>
+          <text x="88" y="178" font-size="11" fill="#5F5E5A" text-anchor="middle">S 180°</text>
+          <text x="6" y="93" font-size="11" fill="#5F5E5A">W</text>
+          <line x1="90" y1="90" x2="45" y2="135" stroke="#378ADD" stroke-width="2.5" marker-end="url(#ahb)"/>
+          <text x="40" y="150" font-size="12" fill="#378ADD" font-weight="500">v</text>
+          <path d="M 90 110 A 20 20 0 0 0 70 110" fill="none" stroke="#D85A30" stroke-width="1.5"/>
+          <text x="68" y="122" font-size="11" fill="#D85A30">α=45°</text>
+          <path d="M 90 90 A 80 80 0 0 1 45 134" fill="none" stroke="#1D9E75" stroke-width="1" stroke-dasharray="3"/>
+          <text x="115" y="155" font-size="11" fill="#1D9E75">225°</text>
+        </svg>
+      </div>
+      <div style="flex:2;min-width:160px;">
+        <div class="step" style="display:block;">
+          <div class="stitle">Step 1 — Sketch</div>
+          <p>v = −i − j goes 1 unit West and 1 unit South → bottom-left (SW) quadrant.</p>
+        </div>
+        <div class="step" style="display:block;margin-top:6px;">
+          <div class="stitle">Step 2 — Reference angle</div>
+          <p>tan(α) = opposite/adjacent = 1/1 = 1</p>
+          <p>α = arctan(1) = <strong>45°</strong></p>
+        </div>
+        <div class="step" style="display:block;margin-top:6px;">
+          <div class="stitle">Step 3 — Bearing</div>
+          <p>South = 180°. Add our 45° past South:</p>
+          <p>Bearing = 180° + 45° = <strong>225°</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <h3>Quadrant bearing rules</h3>
+      <p style="margin-bottom:4px;"><strong>NE quadrant (+i, +j):</strong> bearing = α</p>
+      <p style="margin-bottom:4px;"><strong>SE quadrant (+i, −j):</strong> bearing = 180° − α</p>
+      <p style="margin-bottom:4px;"><strong>SW quadrant (−i, −j):</strong> bearing = 180° + α</p>
+      <p><strong>NW quadrant (−i, +j):</strong> bearing = 360° − α</p>
+    </div>
+    <div class="card">
+      <h3>Finding α — always positive</h3>
+      <p>Always use the magnitude of the components:</p>
+      <div class="formula">α = arctan(|x-comp| / |y-comp|)</div>
+      <p>This gives the angle from the N–S axis (not E–W).</p>
+    </div>
+  </div>
+  <div class="warn"><p><strong>Watch out:</strong> tan uses |horizontal| / |vertical| when measuring from North, which is opposite to standard trig convention. Always sketch first.</p></div>
+</div>
+
+<!-- TAB 2: MAGNITUDE -->
+<div id="t2" class="sec">
+  <h2>Finding a magnitude (Pythagoras in 2D)</h2>
+  <div class="card bl">
+    <h3>The formula</h3>
+    <div class="formula">|v| = √(a² + b²)  where  v = ai + bj</div>
+    <p>This is just Pythagoras on the right-angled triangle formed by the components.</p>
+  </div>
+  <div class="card">
+    <h3>Worked example from your notes: v = 5i − 12j</h3>
+    <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+      <svg width="150" height="120" viewBox="0 0 150 120">
+        <defs><marker id="bh" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#378ADD"/></marker></defs>
+        <line x1="20" y1="20" x2="130" y2="20" stroke="#888780" stroke-width="1" stroke-dasharray="3"/>
+        <line x1="130" y1="20" x2="130" y2="100" stroke="#888780" stroke-width="1" stroke-dasharray="3"/>
+        <line x1="20" y1="20" x2="128" y2="98" stroke="#378ADD" stroke-width="2.5" marker-end="url(#bh)"/>
+        <text x="62" y="15" font-size="11" fill="#5F5E5A">5 (East)</text>
+        <text x="134" y="62" font-size="11" fill="#5F5E5A">12</text>
+        <text x="55" y="72" font-size="12" fill="#378ADD" font-weight="500">|v| = 13</text>
+        <rect x="122" y="20" width="8" height="8" fill="none" stroke="#888780" stroke-width="1"/>
+      </svg>
+      <div>
+        <p>|v| = √(5² + (−12)²)</p>
+        <p>= √(25 + 144)</p>
+        <p>= √169</p>
+        <p>= <strong>13</strong></p>
+      </div>
+    </div>
+  </div>
+  <div class="warn"><p><strong>Common error:</strong> (−12)² = 144, not −144. Always square the negative sign away.</p></div>
+  <div class="card bl">
+    <h3>Speed from a displacement vector</h3>
+    <p style="margin-bottom:6px;">When i and j represent East and North (in km or m), <strong>speed = distance ÷ time</strong>.</p>
+    <div class="formula">distance = |displacement vector|</div>
+    <p>Convert time to a single unit first (e.g. 2h 45min = 2.75 hours).</p>
+  </div>
+</div>
+
+<!-- TAB 3: TRIANGLE INEQUALITY -->
+<div id="t3" class="sec">
+  <h2>The triangle inequality: |a + b| = |a| + |b|</h2>
+  <div class="card bl">
+    <h3>What does it mean geometrically?</h3>
+    <p style="margin-bottom:8px;">When you add two vectors tip-to-tail, you normally get a triangle — and the resultant is shorter than the two sides added together.</p>
+    <p><strong>But if |a + b| = |a| + |b|, there is no triangle.</strong> The path is a straight line — you never turned. This means a and b are parallel and in the <em>same</em> direction.</p>
+  </div>
+  <div style="display:flex;justify-content:center;margin:1rem 0;">
+    <svg width="320" height="130" viewBox="0 0 320 130">
+      <defs>
+        <marker id="c1" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#378ADD"/></marker>
+        <marker id="c2" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#1D9E75"/></marker>
+        <marker id="c3" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#D85A30"/></marker>
+        <marker id="c4" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#378ADD"/></marker>
+        <marker id="c5" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#1D9E75"/></marker>
+        <marker id="c6" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#D85A30"/></marker>
+      </defs>
+      <text x="30" y="12" font-size="11" fill="#5F5E5A">Case A: general (triangle)</text>
+      <line x1="10" y1="80" x2="80" y2="40" stroke="#378ADD" stroke-width="2" marker-end="url(#c1)"/>
+      <text x="28" y="52" font-size="11" fill="#378ADD">a</text>
+      <line x1="80" y1="40" x2="140" y2="70" stroke="#1D9E75" stroke-width="2" marker-end="url(#c2)"/>
+      <text x="112" y="45" font-size="11" fill="#1D9E75">b</text>
+      <line x1="10" y1="80" x2="138" y2="72" stroke="#D85A30" stroke-width="2" stroke-dasharray="4" marker-end="url(#c3)"/>
+      <text x="60" y="90" font-size="11" fill="#D85A30">a+b  &lt;  |a|+|b|</text>
+      <text x="170" y="12" font-size="11" fill="#5F5E5A">Case B: parallel (straight line)</text>
+      <line x1="170" y1="70" x2="230" y2="70" stroke="#378ADD" stroke-width="2" marker-end="url(#c4)"/>
+      <text x="193" y="65" font-size="11" fill="#378ADD">a</text>
+      <line x1="230" y1="70" x2="305" y2="70" stroke="#1D9E75" stroke-width="2" marker-end="url(#c5)"/>
+      <text x="260" y="65" font-size="11" fill="#1D9E75">b</text>
+      <line x1="170" y1="85" x2="303" y2="85" stroke="#D85A30" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#c6)"/>
+      <text x="190" y="100" font-size="11" fill="#D85A30">a+b  =  |a|+|b| ✓</text>
+    </svg>
+  </div>
+  <div class="kp"><p><strong>Exam answer:</strong> "a and b are parallel and in the same direction" (or equivalently "a and b are collinear and point the same way").</p></div>
+</div>
+
+<!-- TAB 4: DISPLACEMENT RULE -->
+<div id="t4" class="sec">
+  <h2>The displacement rule: finding |m − n|</h2>
+  <div class="card bl">
+    <h3>The key geometric insight</h3>
+    <p style="margin-bottom:6px;">To find <span class="fi">m − n</span>, rewrite it as <span class="fi">m + (−n)</span>. Then place the vectors tip-to-tail to form a triangle.</p>
+    <p>The angle <em>inside</em> the triangle (between <strong>m</strong> and <strong>−n</strong>) is <strong>180° − θ</strong>, where θ is the original angle between m and n.</p>
+  </div>
+  <div style="display:flex;justify-content:center;margin:1rem 0;">
+    <svg width="280" height="160" viewBox="0 0 280 160">
+      <defs>
+        <marker id="d1" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#378ADD"/></marker>
+        <marker id="d2" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#1D9E75"/></marker>
+        <marker id="d3" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#D85A30"/></marker>
+        <marker id="d4" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#D85A30"/></marker>
+      </defs>
+      <line x1="30" y1="120" x2="160" y2="50" stroke="#378ADD" stroke-width="2.5" marker-end="url(#d1)"/>
+      <text x="75" y="72" font-size="13" fill="#378ADD" font-weight="500">m</text>
+      <line x1="30" y1="120" x2="180" y2="120" stroke="#1D9E75" stroke-width="2" marker-end="url(#d2)"/>
+      <text x="98" y="138" font-size="13" fill="#1D9E75" font-weight="500">n</text>
+      <path d="M 68 120 A 38 38 0 0 0 58 103" fill="none" stroke="#888780" stroke-width="1"/>
+      <text x="72" y="112" font-size="11" fill="#5F5E5A">θ</text>
+      <line x1="180" y1="120" x2="162" y2="52" stroke="#D85A30" stroke-width="1.5" stroke-dasharray="3" marker-end="url(#d4)"/>
+      <text x="185" y="90" font-size="12" fill="#D85A30">−n</text>
+      <line x1="30" y1="120" x2="160" y2="52" stroke="#993C1D" stroke-width="2.5" stroke-dasharray="5" marker-end="url(#d3)"/>
+      <text x="60" y="102" font-size="12" fill="#993C1D" font-weight="500">m−n</text>
+      <text x="120" y="105" font-size="11" fill="#5F5E5A">180°−θ</text>
+    </svg>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <h3>Which rule to use?</h3>
+      <p style="margin-bottom:4px;">Is the triangle right-angled? → <strong>Pythagoras or trig ratios</strong></p>
+      <p style="margin-bottom:4px;">Non-right: do you know a side and its opposite angle? → <strong>Sine Rule</strong></p>
+      <p>Non-right: no side-angle pair? → <strong>Cosine Rule</strong></p>
+    </div>
+    <div class="card">
+      <h3>The sine rule</h3>
+      <div class="formula">sin A / a  =  sin B / b  =  sin C / c</div>
+      <p>Use when you know one side-angle pair and want another angle.</p>
+    </div>
+  </div>
+  <div class="card bl">
+    <h3>Worked example: |m| = 3, |m−n| = 6, angle between m and n = 30°</h3>
+    <p style="margin-bottom:6px;">This is the exact Question 2(ii) from your past paper.</p>
+    <div class="step" style="display:block;">
+      <div class="stitle">Step 1 — internal angle = 180° − 30° = 150°</div>
+    </div>
+    <div class="step" style="display:block;margin-top:4px;">
+      <div class="stitle">Step 2 — sine rule to find small angle θ</div>
+      <p>sinθ / |m| = sin(150°) / |m−n|</p>
+      <p>sinθ / 3 = sin30° / 6 = 0.5 / 6</p>
+      <p>sinθ = 3 × 0.5 / 6 = 0.25 → θ = arcsin(0.25) = <strong>14.5°</strong></p>
+    </div>
+    <div class="step" style="display:block;margin-top:4px;">
+      <div class="stitle">Step 3 — find the required angle (angles sum to 180°)</div>
+      <p>α = 180° − 30° − 14.5° = <strong>135.5°</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 5: VECTOR GEOMETRY -->
+<div id="t5" class="sec">
+  <h2>Vector geometry: position vectors &amp; proofs</h2>
+  <div class="card bl">
+    <h3>Key formulas</h3>
+    <p style="margin-bottom:4px;"><strong>Vector from A to B:</strong> <span class="fi">AB⃗ = b − a</span> (position vector of B minus position vector of A)</p>
+    <p style="margin-bottom:4px;"><strong>Midpoint M of AB:</strong> <span class="fi">m = ½(a + b)</span></p>
+    <p><strong>Collinearity:</strong> show <span class="fi">AB⃗ = λ AC⃗</span> — they share point A and are parallel, so all three points lie on one line.</p>
+  </div>
+  <div class="card bl">
+    <h3>Proving a point lies on a line — the parametric method</h3>
+    <p style="margin-bottom:6px;">Write ON⃗ two ways: via C and via O, with a scalar parameter λ. Equate coefficients of a and b to find λ, then confirm both equations are satisfied.</p>
+    <p>This is the method used in Questions 6 and 7 of your past paper.</p>
+  </div>
+  <div class="card">
+    <h3>Proving a path passes through a point</h3>
+    <p style="margin-bottom:6px;">Show that <span class="fi">OA⃗ = k · OB⃗</span> for some scalar k. If they share the origin O and are parallel, the path from A through O to B is a straight line — so O is on the path.</p>
+    <div class="kp"><p>Example: OA⃗ = −24i − 10j = 2(−12i − 5j) and OB⃗ = 12i + 5j, so AO⃗ = 2OB⃗. Parallel and sharing O → stone passes through O. ✓</p></div>
+  </div>
+</div>
+
+<!-- PAST PAPER QUESTIONS -->
+<div id="pq" class="sec">
+  <h2>Past paper questions</h2>
+  <p class="sub" style="margin-bottom:1rem;">Exact questions from your Edexcel paper (Vectors MA). Enter answers where prompted, then reveal full solutions.</p>
+
+  <!-- Q1 -->
+  <div class="qbox">
+    <div class="qhd">
+      <div><span class="tag tb">Q1 — position vectors</span><h3>A = 3i − 7j, B = 8i + 3j</h3></div><span class="mk">4 marks</span>
+    </div>
+    <p style="margin-bottom:4px;">(a) Find the vector AB⃗</p>
+    <p style="margin-bottom:8px;">(b) Find |AB⃗|. Give your answer as a simplified surd.</p>
+    <div class="cr">
+      <span style="font-size:13px;">|AB⃗| =</span>
+      <input class="ans" id="q1a" placeholder="e.g. 5√5"/>
+      <button class="btn btnp" onclick="chk('q1a','5√5','q1f')">Check</button>
+      <span class="fb" id="q1f"></span>
+    </div>
+    <button class="btn" style="margin-top:8px;" onclick="tog('q1s')">Show/hide solution</button>
+    <div class="sol" id="q1s">
+      <div class="step"><div class="stitle">Part (a)</div>
+        <p>AB⃗ = b − a = (8i + 3j) − (3i − 7j) = (8−3)i + (3+7)j = <strong>5i + 10j</strong></p>
+      </div>
+      <div class="step"><div class="stitle">Part (b)</div>
+        <p>|AB⃗| = √(5² + 10²) = √(25 + 100) = √125 = √(25 × 5) = <strong>5√5</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="qbox">
+    <div class="qhd">
+      <div><span class="tag tb">Q2 — position vectors</span><h3>A = 4i − 5j, B = −5i − 2j</h3></div><span class="mk">4 marks</span>
+    </div>
+    <p style="margin-bottom:4px;">(a) Find the vector AB⃗</p>
+    <p style="margin-bottom:8px;">(b) Find |AB⃗|. Give your answer as a simplified surd.</p>
+    <div class="cr">
+      <span style="font-size:13px;">|AB⃗| =</span>
+      <input class="ans" id="q2a" placeholder="e.g. 3√10"/>
+      <button class="btn btnp" onclick="chk('q2a','3√10','q2f')">Check</button>
+      <span class="fb" id="q2f"></span>
+    </div>
+    <button class="btn" style="margin-top:8px;" onclick="tog('q2s')">Show/hide solution</button>
+    <div class="sol" id="q2s">
+      <div class="step"><div class="stitle">Part (a)</div>
+        <p>AB⃗ = (−5−4)i + (−2−(−5))j = −9i + 3j</p>
+      </div>
+      <div class="step"><div class="stitle">Part (b)</div>
+        <p>|AB⃗| = √((−9)² + 3²) = √(81 + 9) = √90 = √(9 × 10) = <strong>3√10</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="qbox">
+    <div class="qhd">
+      <div><span class="tag ta">Q3 — triangle inequality &amp; sine rule</span><h3>|m| = 3, |m−n| = 6, angle between m and n = 30°</h3></div><span class="mk">5 marks</span>
+    </div>
+    <p style="margin-bottom:4px;">(i) Two non-zero vectors a and b are such that |a + b| = |a| + |b|. Explain, geometrically, the significance of this statement. <em>(1 mark)</em></p>
+    <p style="margin-bottom:8px;">(ii) Find the angle between vector m and vector m − n, to one decimal place. <em>(4 marks)</em></p>
+    <div class="cr">
+      <span style="font-size:13px;">Angle (m, m−n) =</span>
+      <input class="ans" id="q3a" placeholder="e.g. 135.5°"/>
+      <button class="btn btnp" onclick="chkN('q3a',135.5,0.1,'q3f')">Check</button>
+      <span class="fb" id="q3f"></span>
+    </div>
+    <button class="btn" style="margin-top:8px;" onclick="tog('q3s')">Show/hide solution</button>
+    <div class="sol" id="q3s">
+      <div class="step"><div class="stitle">Part (i)</div>
+        <p>a and b are <strong>parallel and in the same direction</strong>. The tip-to-tail path is a straight line — no turning occurs, so the resultant has length equal to the sum of the individual lengths.</p>
+      </div>
+      <div class="step"><div class="stitle">Part (ii) — Step 1: internal angle</div>
+        <p>Angle between m and n is 30°. Internal angle of the displacement triangle = 180° − 30° = <strong>150°</strong>.</p>
+      </div>
+      <div class="step"><div class="stitle">Step 2 — sine rule for small angle θ at vertex where m−n meets −n</div>
+        <p>sinθ / |m| = sin(150°) / |m−n|</p>
+        <p>sinθ / 3 = sin30° / 6  →  sinθ = 3 × 0.5 / 6 = 0.25</p>
+        <p>θ = arcsin(0.25) = <strong>14.5°</strong></p>
+      </div>
+      <div class="step"><div class="stitle">Step 3 — required angle</div>
+        <p>Angles in triangle sum to 180°:</p>
+        <p>α = 180° − 30° − 14.5° = <strong>135.5°</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="qbox">
+    <div class="qhd">
+      <div><span class="tag ta">Q4 — bearing &amp; speed</span><h3>Coastguard boat problem</h3></div><span class="mk">6 marks</span>
+    </div>
+    <p style="margin-bottom:4px;">i and j are due East and due North respectively. At 10:00 the boat is at (4i − 2j) km. At 12:45 the boat is at (−3i − 5j) km. Constant speed in a straight line.</p>
+    <p style="margin-bottom:4px;">(a) Find the bearing of travel, to 1 d.p. <em>(3 marks)</em></p>
+    <p style="margin-bottom:8px;">(b) Find the speed in km h⁻¹ <em>(3 marks)</em></p>
+    <div class="cr">
+      <span style="font-size:13px;">Bearing =</span>
+      <input class="ans" id="q4a" style="width:80px;" placeholder="°"/>
+      <button class="btn btnp" onclick="chkN('q4a',246.8,0.1,'q4f')">Check</button>
+      <span class="fb" id="q4f"></span>
+    </div>
+    <button class="btn" style="margin-top:8px;" onclick="tog('q4s')">Show/hide solution</button>
+    <div class="sol" id="q4s">
+      <div class="step"><div class="stitle">Step 1 — displacement vector</div>
+        <p>d = end − start = (−3i − 5j) − (4i − 2j) = −7i − 3j</p>
+        <p>Goes 7 units West, 3 units South → SW quadrant.</p>
+      </div>
+      <div class="step"><div class="stitle">Step 2 — reference angle from South</div>
+        <p>θ = arctan(7/3) = arctan(2.333) = 66.8°</p>
+        <p>Bearing = 180° + 66.8° = <strong>246.8°</strong></p>
+      </div>
+      <div class="step"><div class="stitle">Part (b) — speed</div>
+        <p>Distance = |d| = √(7² + 3²) = √(49 + 9) = √58 km</p>
+        <p>Time = 12:45 − 10:00 = 2h 45min = 2.75 hours</p>
+        <p>Speed = √58 / 2.75 ≈ <strong>2.77 km h⁻¹</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="qbox">
+    <div class="qhd">
+      <div><span class="tag ta">Q5 — passes through origin</span><h3>Stone on ice: A(−24i − 10j), B(12i + 5j), 4 seconds</h3></div><span class="mk">5 marks</span>
+    </div>
+    <p style="margin-bottom:4px;">(a) Prove that the stone passes through O. <em>(2 marks)</em></p>
+    <p style="margin-bottom:8px;">(b) Calculate the speed of the stone. <em>(3 marks)</em></p>
+    <button class="btn" style="margin-top:8px;" onclick="tog('q5s')">Show/hide solution</button>
+    <div class="sol" id="q5s">
+      <div class="step"><div class="stitle">Part (a) — show AO⃗ and OB⃗ are parallel</div>
+        <p>OA⃗ = −24i − 10j, so AO⃗ = 24i + 10j</p>
+        <p>OB⃗ = 12i + 5j</p>
+        <p>AO⃗ = 2(12i + 5j) = 2 · OB⃗</p>
+        <p>Since AO⃗ is parallel to OB⃗ and they share point O, the path A→B passes through O. ✓</p>
+      </div>
+      <div class="step"><div class="stitle">Part (b) — speed</div>
+        <p>AB⃗ = (12−(−24))i + (5−(−10))j = 36i + 15j</p>
+        <p>|AB⃗| = √(36² + 15²) = √(1296 + 225) = √1521 = 39 m</p>
+        <p>Speed = 39 m ÷ 4 s = <strong>9.75 m s⁻¹</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="qbox">
+    <div class="qhd">
+      <div><span class="tag tg">Q6 — harder: vector geometry in a triangle</span><h3>Triangle OAB, C where OC⃗ = 2OA⃗, M midpoint of AB</h3></div><span class="mk">6 marks</span>
+    </div>
+    <p style="margin-bottom:4px;">OA⃗ = a, OB⃗ = b. C is such that OC⃗ = 2OA⃗. M is midpoint of AB. Line CM cuts OB at N.</p>
+    <p style="margin-bottom:4px;">(a) Find CM⃗ in terms of a and b. <em>(2 marks)</em></p>
+    <p style="margin-bottom:4px;">(b) Show that ON⃗ = (2 − 3λ/2)a + (λ/2)b. <em>(2 marks)</em></p>
+    <p style="margin-bottom:8px;">(c) Hence prove ON : NB = 2 : 1. <em>(2 marks)</em></p>
+    <button class="btn" onclick="tog('q6s')">Show/hide solution</button>
+    <div class="sol" id="q6s">
+      <div class="step"><div class="stitle">Part (a) — find CM⃗</div>
+        <p>OC⃗ = 2a, so CA⃗ = OA⃗ − OC⃗ = a − 2a = −a</p>
+        <p>AM⃗ = ½AB⃗ = ½(b − a)</p>
+        <p>CM⃗ = CA⃗ + AM⃗ = −a + ½(b − a) = −a − ½a + ½b = <strong>−(3/2)a + (1/2)b</strong></p>
+      </div>
+      <div class="step"><div class="stitle">Part (b) — parametric form for ON⃗</div>
+        <p>N lies on line CM, so CN⃗ = λ · CM⃗ for some scalar λ.</p>
+        <p>ON⃗ = OC⃗ + CN⃗ = 2a + λ(−(3/2)a + (1/2)b)</p>
+        <p>= 2a − (3λ/2)a + (λ/2)b = <strong>(2 − 3λ/2)a + (λ/2)b</strong> ✓</p>
+      </div>
+      <div class="step"><div class="stitle">Part (c) — find λ and prove ratio</div>
+        <p>N lies on OB, so the coefficient of a must be 0:</p>
+        <p>2 − 3λ/2 = 0  →  λ = 4/3</p>
+        <p>ON⃗ = (4/3)(1/2)b = (2/3)b</p>
+        <p>NB⃗ = OB⃗ − ON⃗ = b − (2/3)b = (1/3)b</p>
+        <p>ON : NB = (2/3) : (1/3) = <strong>2 : 1</strong> ✓</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="qbox">
+    <div class="qhd">
+      <div><span class="tag tg">Q7 — harder: collinear proof</span><h3>P, Q, R collinear; Q is one third of the way from P to R</h3></div><span class="mk">3 marks</span>
+    </div>
+    <p style="margin-bottom:8px;">Show that q = ⅓(r + 2p)</p>
+    <button class="btn" onclick="tog('q7s')">Show/hide solution</button>
+    <div class="sol" id="q7s">
+      <div class="step"><div class="stitle">Q is ⅓ of way from P to R, so QR⃗ = ⅔ PR⃗</div>
+        <p>r − q = (2/3)(r − p)</p>
+        <p>r − q = (2/3)r − (2/3)p</p>
+        <p>q = r − (2/3)r + (2/3)p = (1/3)r + (2/3)p</p>
+        <p>q = (1/3)(r + 2p) ✓</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- GENERATOR -->
+<div id="gen" class="sec">
+  <h2>Question generator</h2>
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem;">Randomised displacement-triangle problems in the style of your past paper.</p>
+  <button class="genbtn" onclick="genQ()">Generate new question ↻</button>
+  <div id="go" style="display:none;"></div>
+</div>
+
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('vis'));
+  document.getElementById(id).classList.add('vis');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+function tog(id){
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='block'?'none':'block';
+}
+function chk(inp,exp,fb){
+  const v=document.getElementById(inp).value.trim().replace(/\s/g,'');
+  const e=exp.replace(/\s/g,'');
+  const f=document.getElementById(fb);
+  f.textContent=v===e?'✓ Correct!':'✗ Not quite';
+  f.className='fb '+(v===e?'ok':'no');
+}
+function chkN(inp,exp,tol,fb){
+  const v=parseFloat(document.getElementById(inp).value);
+  const f=document.getElementById(fb);
+  const ok=!isNaN(v)&&Math.abs(v-exp)<=tol;
+  f.textContent=ok?'✓ Correct!':'✗ Not quite';
+  f.className='fb '+(ok?'ok':'no');
+}
+function genQ(){
+  const mMag=3+Math.floor(Math.random()*6);
+  const ths=[30,45,60];
+  const theta=ths[Math.floor(Math.random()*3)];
+  const ia=180-theta;
+  const rad=ia*Math.PI/180;
+  const res=mMag+2+Math.floor(Math.random()*4);
+  const cosA=Math.cos(rad);
+  const B=-2*mMag*cosA;
+  const C=mMag*mMag-res*res;
+  const disc=B*B-4*C;
+  if(disc<0){genQ();return;}
+  const nMag=(-B+Math.sqrt(disc))/2;
+  const st=(nMag*Math.sin(rad))/res;
+  if(Math.abs(st)>1){genQ();return;}
+  const theta2=Math.asin(st)*180/Math.PI;
+  const finalAng=180-theta-theta2;
+  const qid=Math.floor(Math.random()*9000+1000);
+  const go=document.getElementById('go');
+  go.innerHTML=`
+  <div class="qbox">
+    <div class="qhd"><div><span class="tag ta">Generated #${qid}</span><h3>Displacement triangle problem</h3></div><span class="mk">5 marks</span></div>
+    <p style="margin-bottom:6px;">Vectors <strong>m</strong> and <strong>n</strong> are such that:</p>
+    <ul style="margin-bottom:10px;margin-left:1.2rem;">
+      <li>|<strong>m</strong>| = ${mMag}</li>
+      <li>|<strong>m</strong> − <strong>n</strong>| = ${res}</li>
+      <li>Angle between <strong>m</strong> and <strong>n</strong> = ${theta}°</li>
+    </ul>
+    <p style="margin-bottom:4px;font-weight:500;">(a) Find |<strong>n</strong>|, to 3 s.f.</p>
+    <p style="font-weight:500;">(b) Find the angle between <strong>m</strong> and <strong>m</strong> − <strong>n</strong>, to 1 d.p.</p>
+    <div class="cr" style="margin-top:8px;">
+      <span style="font-size:13px;">Angle (m, m−n) =</span>
+      <input class="ans" id="ga" placeholder="1 d.p."/>
+      <button class="btn btnp" onclick="chkN('ga',${finalAng.toFixed(1)},0.2,'gf')">Check</button>
+      <span class="fb" id="gf"></span>
+    </div>
+    <button class="btn" style="margin-top:8px;" onclick="tog('gs')">Show/hide solution</button>
+    <div class="sol" id="gs">
+      <div class="step"><div class="stitle">Step 1 — internal angle = 180° − ${theta}° = ${ia}°</div></div>
+      <div class="step"><div class="stitle">Step 2 — cosine rule to find |n|</div>
+        <p>${res}² = ${mMag}² + n² − 2(${mMag})(n)cos(${ia}°)</p>
+        <p>Quadratic in n: n² ${B>=0?'+ ':'− '}${Math.abs(B).toFixed(3)}n + (${C.toFixed(2)}) = 0</p>
+        <p>Positive root: |<strong>n</strong>| ≈ <strong>${nMag.toFixed(3)}</strong></p>
+      </div>
+      <div class="step"><div class="stitle">Step 3 — sine rule for small angle</div>
+        <p>sinθ / ${nMag.toFixed(3)} = sin${ia}° / ${res}</p>
+        <p>θ = arcsin(${st.toFixed(4)}) ≈ ${theta2.toFixed(1)}°</p>
+      </div>
+      <div class="step"><div class="stitle">Step 4 — required angle</div>
+        <p>α = 180° − ${theta}° − ${theta2.toFixed(1)}° = <strong>${finalAng.toFixed(1)}°</strong></p>
+      </div>
+    </div>
+  </div>`;
+  go.style.display='block';
+  document.getElementById('gs').style.display='none';
+}
+</script>
